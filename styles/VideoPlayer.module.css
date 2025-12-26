@@ -1,0 +1,703 @@
+/* VideoPlayer.module.css - Netflix Clone Video Player Styling */
+
+/* ==================== Container & Layout ==================== */
+
+.videoPlayerContainer {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background-color: #000;
+  overflow: hidden;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ==================== Controls Container ==================== */
+
+.controlsContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 40px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.videoPlayerContainer:hover .controlsContainer,
+.controlsContainer.active {
+  opacity: 1;
+}
+
+/* ==================== Progress Bar ==================== */
+
+.progressBar {
+  width: 100%;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  border-radius: 2.5px;
+  transition: height 0.2s ease;
+  position: relative;
+}
+
+.progressBar:hover {
+  height: 8px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #e50914;
+  border-radius: 2.5px;
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+.progressHandle {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: #e50914;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.progressBar:hover .progressHandle {
+  opacity: 1;
+}
+
+/* ==================== Time Display ==================== */
+
+.timeContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+  padding: 0 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.currentTime,
+.duration {
+  font-weight: 500;
+}
+
+/* ==================== Control Buttons Row ==================== */
+
+.controlsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.leftControls,
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==================== Button Styling ==================== */
+
+.button {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  color: #000;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  padding: 0;
+}
+
+.button:hover {
+  background-color: #fff;
+  transform: scale(1.1);
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.playButton {
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  background-color: #e50914;
+  color: #fff;
+}
+
+.playButton:hover {
+  background-color: #f40612;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+.pauseButton {
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  background-color: #e50914;
+  color: #fff;
+}
+
+.pauseButton:hover {
+  background-color: #f40612;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+/* ==================== Volume Control ==================== */
+
+.volumeControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.volumeButton {
+  flex-shrink: 0;
+}
+
+.volumeSlider {
+  width: 0;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.volumeControl:hover .volumeSlider {
+  width: 80px;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background-color: #e50914;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background-color: #e50914;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.volumeSlider::-webkit-slider-runnable-track {
+  background-color: rgba(255, 255, 255, 0.3);
+  height: 4px;
+  border-radius: 2px;
+}
+
+.volumeSlider::-moz-range-track {
+  background-color: transparent;
+  border: none;
+}
+
+/* ==================== Speed Control ==================== */
+
+.speedControl {
+  position: relative;
+}
+
+.speedButton {
+  font-size: 14px;
+  font-weight: 600;
+  width: auto;
+  min-width: 44px;
+  padding: 0 10px;
+}
+
+.speedMenu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 80px;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.speedControl:hover .speedMenu,
+.speedMenu.active {
+  display: flex;
+}
+
+.speedOption {
+  padding: 10px 16px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: right;
+}
+
+.speedOption:hover,
+.speedOption.active {
+  background-color: #e50914;
+}
+
+/* ==================== Fullscreen Button ==================== */
+
+.fullscreenButton {
+  flex-shrink: 0;
+}
+
+/* ==================== Settings Menu ==================== */
+
+.settingsButton {
+  position: relative;
+}
+
+.settingsMenu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+.settingsButton:hover .settingsMenu,
+.settingsMenu.active {
+  display: flex;
+}
+
+.settingsOption {
+  padding: 12px 16px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settingsOption:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== Loading & Buffering ==================== */
+
+.loadingSpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #e50914;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  z-index: 5;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.buffering {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 14px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: none;
+  z-index: 8;
+}
+
+.buffering.active {
+  display: block;
+}
+
+/* ==================== Subtitles & Captions ==================== */
+
+.subtitlesContainer {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  padding: 0 20px;
+  line-height: 1.4;
+  z-index: 7;
+}
+
+.subtitle {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 4px 8px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+/* ==================== Big Play Button (Center) ==================== */
+
+.bigPlayButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background-color: rgba(229, 9, 20, 0.9);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #fff;
+  transition: all 0.3s ease;
+  z-index: 6;
+  opacity: 1;
+}
+
+.bigPlayButton:hover {
+  background-color: #e50914;
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 8px 24px rgba(229, 9, 20, 0.4);
+}
+
+.bigPlayButton.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==================== Tooltip ==================== */
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  z-index: 15;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.9);
+}
+
+.button:hover .tooltip {
+  display: block;
+}
+
+/* ==================== Error State ==================== */
+
+.errorContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 32px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 90%;
+  z-index: 10;
+  display: none;
+}
+
+.errorContainer.active {
+  display: block;
+}
+
+.errorTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #e50914;
+}
+
+.errorMessage {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+}
+
+.errorButton {
+  background-color: #e50914;
+  color: #fff;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.errorButton:hover {
+  background-color: #f40612;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+/* ==================== Responsive Design ==================== */
+
+@media (max-width: 768px) {
+  .controlsContainer {
+    padding: 30px 16px 16px;
+    gap: 10px;
+  }
+
+  .button {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .playButton,
+  .pauseButton {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .bigPlayButton {
+    width: 70px;
+    height: 70px;
+    font-size: 36px;
+  }
+
+  .timeContainer {
+    font-size: 11px;
+  }
+
+  .volumeControl:hover .volumeSlider {
+    width: 60px;
+  }
+
+  .controlsRow {
+    gap: 8px;
+  }
+
+  .speedButton {
+    min-width: 40px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .controlsContainer {
+    padding: 24px 12px 12px;
+    gap: 8px;
+  }
+
+  .button {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .playButton,
+  .pauseButton {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .bigPlayButton {
+    width: 60px;
+    height: 60px;
+    font-size: 32px;
+  }
+
+  .timeContainer {
+    font-size: 10px;
+  }
+
+  .volumeControl:hover .volumeSlider {
+    width: 50px;
+  }
+
+  .speedButton {
+    display: none;
+  }
+
+  .speedControl {
+    display: none;
+  }
+
+  .subtitlesContainer {
+    font-size: 14px;
+  }
+
+  .errorContainer {
+    padding: 24px;
+  }
+
+  .errorTitle {
+    font-size: 16px;
+  }
+
+  .errorMessage {
+    font-size: 12px;
+  }
+}
+
+/* ==================== Fullscreen Mode ==================== */
+
+.videoPlayerContainer:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  border-radius: 0;
+}
+
+.videoPlayerContainer:fullscreen .video {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==================== Picture-in-Picture ==================== */
+
+.pipContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.pipContainer .video {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==================== Animation Classes ==================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease;
+}
